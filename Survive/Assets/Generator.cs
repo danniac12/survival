@@ -1,146 +1,163 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Generator : MonoBehaviour
 {
-    Heroe ero = new Heroe();
-    Citizen citizen = new Citizen();
-    Zombie zombie = new Zombie();
-    
-    
-    string[] Name = new string[]     
-    { "santiago", "rio", "tere", "troy", "Joe Salinas",
-      "Aleesha Harwood","Abdirahman Hendrix","Kaycee Regan","Chantal Barker","Cherise Buckley",
-      "Taiba Mcfarland","Sanah Stuart", "Jack Melia", "Pascal Mckenzie","Kelly Rankin",
-      "Everly Moore","Muna Cherry","Anya Phelps","Marguerite Fraser","Kali Pennington"
-    };
+    Heroe heroe;
+    public string Clor;
     /// <summary>
     ///  se determina las cantidades de zombie y ciudadano que se generarán. 
     ///  e indica la informacion que tendran los ciudadnos como nombre y edad
     /// </summary>
     void Start()
     {
-        ero.hero = GameObject.CreatePrimitive(PrimitiveType.Capsule);
-        ero.hero.AddComponent<Camera>();
-        int rnd = UnityEngine.Random.Range(4, 10);
+
+        heroe = new Heroe(new GameObject());
         
-
-        for (int i = 0; i < rnd; i++)
+        string[] name = new string[]
+        { "santiago", "rio", "tere", "troy", "Joe Salinas",
+         "Aleesha Harwood","Abdirahman Hendrix","Kaycee Regan","Chantal Barker","Cherise Buckley",
+         "Taiba Mcfarland","Sanah Stuart", "Jack Melia", "Pascal Mckenzie","Kelly Rankin",
+         "Everly Moore","Muna Cherry","Anya Phelps","Marguerite Fraser","Kali Pennington"
+        };
+        int Zrnd;
+        int rasgo;
+        Zrnd = Random.Range(5, 10);
+        for (int i = 0; i < Zrnd; i++)
         {
-            int age = UnityEngine.Random.Range(15, 100);
-            int nom = UnityEngine.Random.Range(0, 19);
-            int forme = UnityEngine.Random.Range(0, 2);
-            if (forme == 0)
+            rasgo = Random.Range(0, 2);
+            if(rasgo == 0)
             {
-               
-                citizen.City(Name[nom],age);
-                
-            }
-            else
-            {
-                zombie.Zomb();
-            }
-                
-        }
-    }
+                int Crnd = Random.Range(1, 4);
+                if (Crnd == 1)
+                {
+                    Clor = "Cyan";
+                }
+                if (Crnd == 2)
+                {
+                    Clor = "Magenta";
+                }
+                if (Crnd == 3)
+                {
+                    Clor = "Verde";
+                }
 
-   
+                new Zombie(Clor);
+            }
+            if (rasgo == 1)
+            {
+                int nrnd = Random.Range(0, 20);
+                int ernd = Random.Range(15, 101);
+                new Aldeano(name[nrnd], ernd);
+            }   
+        }     
+    }
 
     void Update()
     {
-        ero.Movimiento();
+        heroe.Movimiento(heroe.heroMov.position);
     }
-  
 }
-
-
-// Update is called once per frame
-
 /// <summary>
 /// Se genera gran parte las estancias del lo jugable
 /// </summary>
+
 public class Heroe
 {
-    public GameObject hero;
-
- 
-    public void Movimiento()
+    public Transform heroMov;
+    public Heroe(GameObject hero)
     {
+        hero = GameObject.CreatePrimitive(PrimitiveType.Capsule);
+        heroMov = hero.transform;
+        hero.AddComponent<Camera>();
+        hero.name = "Heroe";
        
+    }
+
+    public Vector3 Movimiento(Vector3 vec)
+    {
+        vec = heroMov.position;
         if (Input.GetKey(KeyCode.W))
         {
-            hero.transform.Translate(0,0,0.3f);
+            heroMov.transform.Translate(0, 0, 0.3f);
 
         }
         if (Input.GetKey(KeyCode.S))
         {
-            hero.transform.Translate(0, 0, -0.3f);
+            heroMov.transform.Translate(0, 0, -0.3f);
         }
         if (Input.GetKey(KeyCode.A))
         {
-            hero.transform.Rotate(0, -1, 0,0);
+            heroMov.transform.Rotate(0, -1, 0, 0);
         }
         if (Input.GetKey(KeyCode.D))
         {
-            hero.transform.Rotate(0,1, 0, 0);
+            heroMov.transform.Rotate(0, 1, 0, 0);
         }
-       
+        return vec;
     }
-    
+
 }
 /// <summary>
-/// genera al los ciudadanos 
-/// </summary>
- public class Citizen
- {
-    GameObject body;
-  
-    public void City (string name, int age)
-    {
-        body = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        float x = UnityEngine.Random.Range(-10,10);
-        float z = UnityEngine.Random.Range(-10, 10);
-        body.transform.position = new Vector3(x, 0, z);
-        Debug.Log("Hola soy "+ name +" y tengo "+ age + " años");
-      
-    }
- }
-/// <summary>
-/// genera los zombies y les asigna un color 
+/// Se da Toda la funcion de los zombies
 /// </summary>
 public class Zombie
 {
-    GameObject body;
-    public void Zomb()
+    /// <summary>
+    /// Toma toda 
+    /// </summary>
+    /// <param name="color">
+    /// Se le da un string con los nombres "Cyan, Magenta o Verde", Para darle su color y ademas se crean todas las estancias
+    /// </param>
+    public Zombie(string color)
     {
-        int cambio = UnityEngine.Random.Range(1, 4);
-        if(cambio == 1)
-        {
-            body = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            Renderer color = body.GetComponent<Renderer>();
-            color.material.color = Color.green;
-            Debug.Log("Soy un Zombie de color" + " Verde");
-        }
-        if(cambio == 2)
-        {
-            body = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            Renderer color = body.GetComponent<Renderer>();
-            color.material.color = Color.cyan;
-            Debug.Log("Soy un Zombie de color" + " Cyan");
-        }
-        else
-        {
-            body = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            Renderer color = body.GetComponent<Renderer>();
-            color.material.color = Color.magenta;
-            Debug.Log("Soy un Zombie de color" + " Mangeta");
-        }
 
-        
-        float x = UnityEngine.Random.Range(-10, 10);
-        float z = UnityEngine.Random.Range(-10, 10);
-        body.transform.position = new Vector3(x, 0, z);
+        GameObject zesfera = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        zesfera.name = "Zombie";
+        Renderer zrendere = zesfera.GetComponent<Renderer>();
+        float Rx = Random.Range(-10, 10);
+        float Ry = Random.Range(-10, 10);
+        zesfera.transform.position = new Vector3(Rx, 0, Ry);
+        if (color == "Cyan")
+        {
+            zrendere.material.color = Color.cyan;
+        }
+        if (color == "Magenta")
+        {
+            zrendere.material.color = Color.magenta;
+        }
+        if (color == "Verde")
+        {
+            zrendere.material.color = Color.green;
+        }
+        Debug.Log("Soy un Zombie de color " + color);
+
+    }
+
+}
+
+/// <summary>
+/// Se toma todo lo de los aldeanos
+/// </summary>
+public class Aldeano
+{
+    /// <summary>
+    /// Es la estancia de todos los aldeano
+    /// </summary>
+    /// <param name="nombre">
+    /// Se da un nombre dentro de un array
+    /// </param>
+    /// <param name="edad">
+    /// Se da un nombre dentro de un entero
+    /// </param>
+    public Aldeano(string nombre, int edad)
+    {
+        GameObject acube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        acube.name = nombre;
+        float Rx = Random.Range(-10, 10);
+        float Ry = Random.Range(-10, 10);
+        acube.transform.position = new Vector3(Rx, 0, Ry);
+        Debug.Log("Hola Soy " + nombre + " y tengo " + edad + " años");
     }
 }
