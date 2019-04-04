@@ -5,7 +5,7 @@ using UnityEngine;
 public class Generator : MonoBehaviour
 {
     Heroe heroe;
-    public string Clor;
+    public string clor;
     /// <summary>
     ///  se determina las cantidades de zombie y ciudadano que se generarán. 
     ///  e indica la informacion que tendran los ciudadnos como nombre y edad
@@ -43,7 +43,7 @@ public class Generator : MonoBehaviour
                     Clor = "Verde";
                 }
 
-                new Zombie(Clor);
+                new Zombie(clor);
             }
             if (rasgo == 1)
             {
