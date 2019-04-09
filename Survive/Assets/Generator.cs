@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,7 +14,7 @@ public class Generator : MonoBehaviour
     void Start()
     {
 
-        heroe = new Heroe(new GameObject());
+        heroe = new Heroe();
         
         string[] name = new string[]
         { "santiago", "rio", "tere", "troy", "Joe Salinas",
@@ -21,26 +22,26 @@ public class Generator : MonoBehaviour
          "Taiba Mcfarland","Sanah Stuart", "Jack Melia", "Pascal Mckenzie","Kelly Rankin",
          "Everly Moore","Muna Cherry","Anya Phelps","Marguerite Fraser","Kali Pennington"
         };
-        int Zrnd;
+        int zrnd;
         int rasgo;
-        Zrnd = Random.Range(5, 10);
-        for (int i = 0; i < Zrnd; i++)
+        zrnd = Random.Range(5, 10);
+        for (int i = 0; i < zrnd; i++)
         {
             rasgo = Random.Range(0, 2);
             if(rasgo == 0)
             {
-                int Crnd = Random.Range(1, 4);
-                if (Crnd == 1)
+                int crnd = Random.Range(1, 4);
+                if (crnd == 1)
                 {
-                    Clor = "Cyan";
+                    clor = "Cyan";
                 }
-                if (Crnd == 2)
+                if (crnd == 2)
                 {
-                    Clor = "Magenta";
+                    clor = "Magenta";
                 }
-                if (Crnd == 3)
+                if (crnd == 3)
                 {
-                    Clor = "Verde";
+                    clor = "Verde";
                 }
 
                 new Zombie(clor);
@@ -66,9 +67,9 @@ public class Generator : MonoBehaviour
 public class Heroe
 {
     public Transform heroMov;
-    public Heroe(GameObject hero)
+    public Heroe()
     {
-        hero = GameObject.CreatePrimitive(PrimitiveType.Capsule);
+        GameObject hero = GameObject.CreatePrimitive(PrimitiveType.Capsule);
         heroMov = hero.transform;
         hero.AddComponent<Camera>();
         hero.name = "Heroe";
@@ -131,10 +132,13 @@ public class Zombie
         {
             zrendere.material.color = Color.green;
         }
-        Debug.Log("Soy un Zombie de color " + color);
+        Debug.Log(imprime("Soy un Zombie de color " + color));
 
     }
-
+    private object imprime(string v)
+    {        
+        return v;
+    }
 }
 
 /// <summary>
@@ -158,6 +162,12 @@ public class Aldeano
         float Rx = Random.Range(-10, 10);
         float Ry = Random.Range(-10, 10);
         acube.transform.position = new Vector3(Rx, 0, Ry);
-        Debug.Log("Hola Soy " + nombre + " y tengo " + edad + " años");
+        Debug.Log(imprime("Hola Soy " + nombre + " y tengo " + edad + " años"));
+    }
+
+    private object imprime(string v)
+    {
+       
+        return v;
     }
 }
